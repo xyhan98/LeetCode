@@ -1,8 +1,13 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        cache = [0 for _ in range(n + 1)]
-        cache[-1] = 1
-        cache[-2] = 1
-        for i in range(len(cache) - 3, -1, -1):
-            cache[i] += cache[i + 1] + cache[i + 2]
-        return cache[0]
+        cache = dict()
+
+        def dfs(i: int) -> int:
+            if i >= n:
+                return 1 if i == n else 0
+            if i in cache:
+                return cache[i]
+            cache[i] = dfs(i + 1) + dfs(i + 2)
+            return cache[i]
+        
+        return dfs(0)
